@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#140c14" />
+    <title>Para Mickaela 🤍</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,600&family=Great+Vibes&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="page-glow" aria-hidden="true"></div>
+
+    <div id="splash-screen" class="splash-screen">
+      <div class="splash-orbs" aria-hidden="true"></div>
+      <div class="splash-content">
+        <span class="pulse-heart">🤍</span>
+        <p class="splash-kicker">Un detalle solo para ti</p>
+        <h1>Mickaela</h1>
+        <p class="splash-sub">Toca para abrir tu regalo especial</p>
+        <button id="open-btn" class="open-btn" type="button">Abrir sorpresa</button>
+      </div>
+    </div>
+
+    <div class="mobile-frame">
+      <div class="particles" id="particles"></div>
+
+      <header class="header">
+        <span class="badge">Feliz Cumpleaños</span>
+        <h2>Para el amor de mi vida</h2>
+        <p class="header-line">Hoy, siempre y en cada canción</p>
+      </header>
+
+      <section class="music-section">
+        <article class="player-card" id="player-card" aria-label="Reproductor de nuestra canción">
+          <div class="player-aura" aria-hidden="true"></div>
+          <div class="click-burst" id="click-burst" aria-hidden="true"></div>
+
+          <div class="vinyl-container">
+            <div class="vinyl-disc" id="vinyl">
+              <div class="vinyl-grooves"></div>
+              <div class="vinyl-center">M</div>
+            </div>
+            <button class="album-cover" id="album-cover" type="button" aria-label="Reproducir nuestra canción">
+              <div class="cover-shine"></div>
+              <div class="cover-inner">
+                <span class="song-title-tag">Nuestra Canción</span>
+                <h3>Mickaela</h3>
+                <p class="cover-hint">Toca para escuchar</p>
+              </div>
+            </button>
+          </div>
+
+          <div class="song-info">
+            <h3 id="track-title">Nuestra Canción</h3>
+            <p id="track-subtitle">Compuesta con todo mi amor</p>
+          </div>
+
+          <div class="progress-wrap" aria-hidden="true">
+            <div class="progress-bar" id="progress-bar"></div>
+          </div>
+
+          <div class="player-controls">
+            <button id="play-btn" class="play-circle-btn" type="button" aria-label="Reproducir">
+              <svg id="play-icon" viewBox="0 0 24 24" width="26" height="26">
+                <path fill="currentColor" d="M8 5v14l11-7z" />
+              </svg>
+            </button>
+          </div>
+        </article>
+
+        <audio id="bg-audio" loop preload="auto">
+          <source src="cancion.mp3" type="audio/mpeg" />
+        </audio>
+      </section>
+
+      <section class="carousel-section">
+        <div class="section-title">
+          <h3>Nuestros Momentos</h3>
+          <span>Toca una foto para verla grande</span>
+        </div>
+
+        <div class="carousel-container" id="carousel"></div>
+        <div class="carousel-dots" id="dots"></div>
+      </section>
+
+      <section class="letter-section">
+        <div class="letter-card">
+          <div class="letter-header">
+            <span>Para Mickaela</span>
+            <span class="letter-heart">♥</span>
+          </div>
+          <p class="letter-body">
+            Mi amor, hoy en tu cumpleaños quise crear algo único para ti. Esta canción lleva pedacitos de lo que siento
+            cuando estoy a tu lado, de tus risas y de la magia que traes a mi vida. Gracias por ser esa persona tan
+            especial, por tu ternura y por cada momento compartido. Espero que este detalle te haga sonreír tanto como
+            tú lo haces conmigo.
+          </p>
+          <p class="letter-signature">Por siempre tuyo 🤍</p>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <p class="footer-love">con <span>AMOR</span></p>
+        <p class="footer-from">TU PIPON</p>
+      </footer>
+    </div>
+
+    <div class="lightbox" id="lightbox" hidden>
+      <div class="lightbox-bg"></div>
+      <button class="lightbox-close" id="lightbox-close" type="button" aria-label="Cerrar">✕</button>
+      <p class="lightbox-counter" id="lightbox-counter">1 / 30</p>
+
+      <button class="lightbox-nav prev" id="lightbox-prev" type="button" aria-label="Foto anterior">‹</button>
+      <button class="lightbox-nav next" id="lightbox-next" type="button" aria-label="Foto siguiente">›</button>
+
+      <div class="lightbox-stage" id="lightbox-stage">
+        <figure class="lightbox-slide is-active" id="lightbox-slide">
+          <div class="lightbox-photo">
+            <img id="lightbox-img" alt="" />
+            <div class="lightbox-fallback" id="lightbox-fallback">Foto 1</div>
+          </div>
+          <figcaption id="lightbox-caption"></figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
