@@ -49,6 +49,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const albumCover = document.getElementById('album-cover');
   const clickBurst = document.getElementById('click-burst');
   const progressBar = document.getElementById('progress-bar');
+  const progressWrap = document.getElementById('progress-wrap');
+  const timeCurrent = document.getElementById('time-current');
+  const timeDuration = document.getElementById('time-duration');
+  const coverArt = document.getElementById('cover-art');
+  const coverArtFallback = document.getElementById('cover-art-fallback');
   const carousel = document.getElementById('carousel');
   const dotsWrap = document.getElementById('dots');
   const particlesContainer = document.getElementById('particles');
@@ -68,6 +73,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function hasAudioSource() {
     return Boolean(bgAudio.currentSrc || (bgAudio.querySelector('source') && bgAudio.querySelector('source').src));
+  }
+
+  function formatTime(seconds) {
+    if (!Number.isFinite(seconds) || seconds < 0) return '0:00';
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${String(secs).padStart(2, '0')}`;
+  }
+
+  function updateTimeBar() {
+    const current = bgAudio.currentTime || 0;
+    const duration = bgAudio.duration || 0;
+    const percent = duration ? (current / duration) * 100 : 0;
+    progressBar.style.width = `${percent}%`;
+    timeCurrent.textContent = formatTime(current);
+    timeDuration.textContent = formatTime(duration);
+    progressWrap.setAttribute('aria-valuemax', String(Math.floor(duration) || 0));
+    progressWrap.setAttribute('aria-valuenow', String(Math.floor(current) || 0));
+  }
+
+  function seekFromEvent(event) {
+    if (!bgAudio.duration) return;
+    const rect = progressWrap.getBoundingClientRect();
+    const x = (event.touches ? event.touches[0].clientX : event.clientX) - rect.left;
+    const ratio = Math.min(1, Math.max(0, x / rect.width));
+    bgAudio.currentTime = ratio * bgAudio.duration;
+    updateTimeBar();
+  }
+
+  function revealCover() {
+    playerCard.classList.add('is-revealed');
+    albumCover.classList.add('is-revealed');
   }
 
   function setPlayingUI(playing) {
@@ -93,6 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   async function playSong() {
+    revealCover();
     burstHearts();
     if (!hasAudioSource()) {
       setPlayingUI(true);
@@ -126,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     photos.forEach((photo, index) => {
       const card = document.createElement('article');
-      card.className = `polaroid${index === 0 ? ' is-active' : ''}`;
+      card.className = `polaroid window-card${index === 0 ? ' is-active' : ''}`;
       card.dataset.index = String(index);
 
       const box = document.createElement('div');
@@ -223,11 +261,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   playBtn.addEventListener('click', (event) => {
     event.stopPropagation();
-    toggleSong();
+    if (isPlaying && !bgAudio.paused) {
+      pauseSong();
+    } else {
+      playSong();
+    }
   });
 
   playerCard.addEventListener('click', () => {
     if (isPlaying && !bgAudio.paused) {
+      revealCover();
       burstHearts();
       return;
     }
@@ -236,14 +279,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
   albumCover.addEventListener('click', (event) => {
     event.stopPropagation();
-    if (isPlaying && !bgAudio.paused) burstHearts();
-    else playSong();
+    if (isPlaying && !bgAudio.paused) {
+      revealCover();
+      burstHearts();
+      return;
+    }
+    playSong();
   });
 
-  bgAudio.addEventListener('timeupdate', () => {
-    if (!bgAudio.duration) return;
-    progressBar.style.width = `${(bgAudio.currentTime / bgAudio.duration) * 100}%`;
+  progressWrap.addEventListener('click', (event) => {
+    event.stopPropagation();
+    seekFromEvent(event);
   });
+
+  coverArt.addEventListener('error', () => {
+    coverArt.classList.add('is-hidden');
+    coverArtFallback.classList.remove('is-hidden');
+  });
+  coverArtFallback.classList.add('is-hidden');
+
+  bgAudio.addEventListener('loadedmetadata', updateTimeBar);
+  bgAudio.addEventListener('timeupdate', updateTimeBar);
+  bgAudio.addEventListener('durationchange', updateTimeBar);
 
   bgAudio.addEventListener('ended', () => {
     if (!bgAudio.loop) setPlayingUI(false);
@@ -269,8 +326,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
   lightbox.querySelector('.lightbox-bg').addEventListener('click', closeLightbox);
-  document.getElementById('lightbox-next').addEventListener('click', () => showLightboxImage(lightboxIndex + 1, 'next'));
-  document.getElementById('lightbox-prev').addEventListener('click', () => showLightboxImage(lightboxIndex - 1, 'prev'));
+  document
+    .getElementById('lightbox-next')
+    .addEventListener('click', () => showLightboxImage(lightboxIndex + 1, 'next'));
+  document
+    .getElementById('lightbox-prev')
+    .addEventListener('click', () => showLightboxImage(lightboxIndex - 1, 'prev'));
 
   lightbox.addEventListener('touchstart', (event) => {
     touchStartX = event.changedTouches[0].screenX;
@@ -302,7 +363,19 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => heart.remove(), 7000);
   }
 
+  document.querySelectorAll('.window-card').forEach((card) => {
+    card.addEventListener('pointerdown', () => card.classList.add('is-lit'));
+    card.addEventListener('pointerup', () => card.classList.remove('is-lit'));
+    card.addEventListener('pointerleave', () => card.classList.remove('is-lit'));
+  });
+
   renderCarousel();
+  document.querySelectorAll('.polaroid.window-card').forEach((card) => {
+    card.addEventListener('pointerdown', () => card.classList.add('is-lit'));
+    card.addEventListener('pointerup', () => card.classList.remove('is-lit'));
+    card.addEventListener('pointerleave', () => card.classList.remove('is-lit'));
+  });
   setPlayingUI(false);
+  updateTimeBar();
   setInterval(createHeart, 900);
 });

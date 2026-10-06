@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,600&family=Great+Vibes&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,600&family=Great+Vibes&family=Playfair+Display:ital,wght@1,500;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
   </head>
@@ -37,7 +37,7 @@
       </header>
 
       <section class="music-section">
-        <article class="player-card" id="player-card" aria-label="Reproductor de nuestra canción">
+        <article class="player-card window-card" id="player-card" aria-label="Reproductor de nuestra canción">
           <div class="player-aura" aria-hidden="true"></div>
           <div class="click-burst" id="click-burst" aria-hidden="true"></div>
 
@@ -46,12 +46,20 @@
               <div class="vinyl-grooves"></div>
               <div class="vinyl-center">M</div>
             </div>
-            <button class="album-cover" id="album-cover" type="button" aria-label="Reproducir nuestra canción">
-              <div class="cover-shine"></div>
-              <div class="cover-inner">
-                <span class="song-title-tag">Nuestra Canción</span>
-                <h3>Mickaela</h3>
-                <p class="cover-hint">Toca para escuchar</p>
+            <button class="album-cover" id="album-cover" type="button" aria-label="Revelar portada y reproducir">
+              <div class="cover-flip">
+                <div class="cover-face cover-front">
+                  <div class="cover-shine"></div>
+                  <div class="cover-inner">
+                    <span class="song-title-tag">Nuestra Canción</span>
+                    <h3>Mickaela</h3>
+                    <p class="cover-hint">Toca para revelar la portada</p>
+                  </div>
+                </div>
+                <div class="cover-face cover-back">
+                  <img id="cover-art" src="PortadaCancion.png" alt="Portada de nuestra canción" />
+                  <div class="cover-art-fallback" id="cover-art-fallback">Portada</div>
+                </div>
               </div>
             </button>
           </div>
@@ -61,8 +69,20 @@
             <p id="track-subtitle">Compuesta con todo mi amor</p>
           </div>
 
-          <div class="progress-wrap" aria-hidden="true">
-            <div class="progress-bar" id="progress-bar"></div>
+          <div class="time-bar">
+            <span id="time-current">0:00</span>
+            <div
+              class="progress-wrap"
+              id="progress-wrap"
+              role="slider"
+              aria-label="Tiempo de la canción"
+              aria-valuemin="0"
+              aria-valuemax="0"
+              aria-valuenow="0"
+            >
+              <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            <span id="time-duration">0:00</span>
           </div>
 
           <div class="player-controls">
@@ -75,7 +95,7 @@
         </article>
 
         <audio id="bg-audio" loop preload="auto">
-          <source src="cancion.mp3" type="audio/mpeg" />
+          <source src="Bajo_la_luna_de_Cedar_Point.mp3" type="audio/mpeg" />
         </audio>
       </section>
 
@@ -90,24 +110,24 @@
       </section>
 
       <section class="letter-section">
-        <div class="letter-card">
+        <div class="letter-card window-card">
           <div class="letter-header">
             <span>Para Mickaela</span>
             <span class="letter-heart">♥</span>
           </div>
           <p class="letter-body">
-            Mi amor, hoy en tu cumpleaños quise crear algo único para ti. Esta canción lleva pedacitos de lo que siento
-            cuando estoy a tu lado, de tus risas y de la magia que traes a mi vida. Gracias por ser esa persona tan
-            especial, por tu ternura y por cada momento compartido. Espero que este detalle te haga sonreír tanto como
-            tú lo haces conmigo.
+            Mi amor, hoy en tu cumpleaños quise crear algo único para ti. Esta canción y está pagina web lleva pedacitos
+            de lo que siento cuando estoy a tu lado, de tus risas y de la magia que traes a mi vida. Gracias por ser esa
+            persona tan especial, por tu ternura y por cada momento compartido. Espero que este detalle te haga sonreír
+            tanto como tú lo haces conmigo. Feliz cumpleaños mi amor !!
           </p>
           <p class="letter-signature">Por siempre tuyo 🤍</p>
         </div>
       </section>
 
       <footer class="footer">
-        <p class="footer-love">con <span>AMOR</span></p>
-        <p class="footer-from">TU PIPON</p>
+        <p class="footer-love">con <span>AMOR:</span></p>
+        <p class="footer-from">Tu Pipón</p>
       </footer>
     </div>
 
